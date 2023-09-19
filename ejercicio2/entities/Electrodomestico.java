@@ -69,11 +69,7 @@ public class Electrodomestico {
      */
 
     public String comprobarConsumoEnergetico(String letra) {
-        /**
-        if (!(letra.equalsIgnoreCase("A") || letra.equalsIgnoreCase("B") || letra.equalsIgnoreCase("C") || letra.equalsIgnoreCase("D") || letra.equalsIgnoreCase("E"))) {
-            this.consumoEnergetico = consumoEnergetico.F;
-        }
-         */
+
 
         for (ConsumoEnergetico aux: ConsumoEnergetico.values()) {
             if (letra.equalsIgnoreCase(aux.name())){
@@ -111,15 +107,60 @@ public class Electrodomestico {
      * @param color
      * @param consumo
      * @param peso
-     * @return
+     * @return e
      */
     public Electrodomestico crearElectrodomestico(String color, String consumo, double peso) {
         Electrodomestico e = new Electrodomestico();
         e.setColor(comprobarColor(color));
         e.setConsumoEnergetico(comprobarConsumoEnergetico(consumo));
         e.setPeso(peso);
-        e.setPrecio(1000);
+        e.setPrecio(1000 + precioFinal(e));
 
         return e;
     }
+
+    /**
+     * Método precioFinal(): según el consumo energético y su tamaño, aumentará el valor del
+     * precio. Esta es la lista de precios:
+     * LETRA PRECIO
+     * A $1000
+     * B $800
+     * C $600
+     * D $500
+     * E $300
+     * F $100
+     *
+     * PESO PRECIO
+     * Entre 1 y 19 kg $100
+     * Entre 20 y 49 kg $500
+     * Entre 50 y 79 kg $800
+     * Mayor que 80 kg $1000
+     */
+
+    public double precioFinal(Electrodomestico e) {
+        double precioConsumo = 0;
+        double precioPeso = 0;
+        double precioTotal;
+
+        for (ConsumoEnergetico aux: ConsumoEnergetico.values()) {
+            if (aux.name().equalsIgnoreCase(e.consumoEnergetico)) {
+                precioConsumo = precioConsumo + aux.getPrecioConsumo();
+            }
+        }
+
+       if (e.peso >= 1 && e.peso <= 19) {
+           precioPeso += 100;
+       } else if(e.peso >= 20 && e.peso <= 49) {
+           precioPeso += 500;
+       } else if(e.peso >= 50 && e.peso <= 79) {
+           precioPeso += 800;
+       } else if (e.peso >= 80) {
+           precioPeso += 1000;
+       }
+
+       precioTotal = precioConsumo + precioPeso;
+
+       return precioTotal;
+    }
+
 }

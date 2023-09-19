@@ -7,8 +7,10 @@ public class Main {
     public static void main(String[] args) {
         Electrodomestico e = new Electrodomestico();
 
-        Electrodomestico e2 = e.crearElectrodomestico("MORADO", "Z", 15);
+        Electrodomestico e2 = e.crearElectrodomestico("NEGRO", "D", 50);
         System.out.println(e2.toString());
+
+
 
     }
 }
